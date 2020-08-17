@@ -20,14 +20,12 @@
 </div>
 <div><a href="/messageboard/create">Add New Message</a></div>
 <div>
-<h3>Recent Messages</h3> 
+<h3>My Posts</h3> 
 
 <ul class="list-group">
     @foreach ($messages as $message)
     <li class="list-item">
-       <a href="/messageboard/{{ $message->id }}"> {{ $message->title }} </a>
-        <br>
-        {{ $message->created_at->format('d/m/Y H:i') }}
+       <a href="/messageboard/{{ $message->id }}"> {{ $message->title }} </a>        
     </li>
         
     @endforeach

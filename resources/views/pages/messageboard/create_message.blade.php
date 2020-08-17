@@ -6,7 +6,7 @@
 
 <div>
    <h3> Post a message </h3>
-   {!! Form::open(['action' => 'MessageController@store', 'method'=>'POST']) !!}
+   {!! Form::open(['action' => 'MessageboardController@store', 'method'=>'POST']) !!}
 <div class="form-group">
     {{ Form::label('title','Title') }}
     {{ Form::text('title','',['class'=>'form-control','placeholder'=>'Title']) }}

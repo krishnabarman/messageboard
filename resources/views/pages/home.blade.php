@@ -10,10 +10,8 @@
 <ul >
     @foreach ($messages as $message)
     <li>
-      <h6> <a href="/messageboard/{{ $message->id }}"> {{ $message->title }} </a></h6>
-        <small>
-        {{ $message->created_at->format('d/m/Y H:i') }}
-        </small>
+      <a href="/messageboard/{{ $message->id }}"> {{ $message->title }} </a> by {{ $message->user->name }}
+  
     </li>
         
     @endforeach

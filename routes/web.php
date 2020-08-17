@@ -18,16 +18,24 @@ use Illuminate\Support\Facades\Route;
     return view('welcome');
 });
 */
-Route::get('/','HomeController@index');
+
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+Route::resource('home', 'HomeController')
+->only('index');
+Route::get('/','HomeController@index');
 
 /*
     Create all the routes for every functions in MessageController.
     //Route::post('/store', 'MessageController@store'); 
     //Route::get('/message/{id}','MessageController@show');
 */
-Route::resource('messageboard', 'MessageController')
-->only('index','create','store','show');
+Route::resource('messageboard', 'MessageboardController');
+Route::get('mymessageboard', 'MyMessageboardController@index');
+
+
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
