@@ -30,4 +30,4 @@ Route::get('/home', 'HomeController@index');
     //Route::get('/message/{id}','MessageController@show');
 */
 Route::resource('messageboard', 'MessageController')
-->only('index','store','show');
+->only('index','create','store','show');

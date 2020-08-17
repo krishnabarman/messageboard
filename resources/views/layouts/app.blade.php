@@ -79,6 +79,7 @@
         </nav>
 
         <main class="py-4 container">
+            @include('inc.notifications')
             @yield('content')
         </main>
     </div>

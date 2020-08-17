@@ -4,21 +4,7 @@
 
 @section('content')
 
-<div>
-   <h3> Post a message </h3>
-   {!! Form::open(['action' => 'MessageController@store', 'method'=>'POST']) !!}
-<div class="form-group">
-    {{ Form::label('title','Title') }}
-    {{ Form::text('title','',['class'=>'form-control','placeholder'=>'Title']) }}
-</div>
-<div class ="form-group">
-    {{ Form::label('title','Content') }}
-    {{ Form::textarea('content','',['class'=>'form-control','placeholder'=>'Content'])    }}
-</div>
-{{ Form::token() }}
-{{ Form::submit('Submit',['class'=>'btn btn-primary']) }}
-   
-{!! Form::close() !!}
+<div>  
    
     <!-- <form action="messageboard" method="POST" id="store">
         <p>
@@ -32,11 +18,13 @@
         <button type="submit">Submit</button>
     </form> !-->
 </div>
-<h3>Recent Messages</h3>
+<div><a href="/messageboard/create">Add New Message</a></div>
+<div>
+<h3>Recent Messages</h3> 
 
-<ul>
+<ul class="list-group">
     @foreach ($messages as $message)
-    <li>
+    <li class="list-item">
        <a href="/messageboard/{{ $message->id }}"> {{ $message->title }} </a>
         <br>
         {{ $message->created_at->format('d/m/Y H:i') }}
@@ -44,4 +32,5 @@
         
     @endforeach
 </ul>
+</div>
 @endsection
