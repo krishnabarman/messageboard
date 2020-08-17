@@ -15,7 +15,6 @@
     {{ Form::label('title','Content') }}
     {{ Form::textarea('content','',['class'=>'form-control','placeholder'=>'Content'])    }}
 </div>
-{{ Form::token() }}
 {{ Form::submit('Submit',['class'=>'btn btn-primary']) }}
    
 {!! Form::close() !!}
