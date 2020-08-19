@@ -18,7 +18,7 @@
         <button type="submit">Submit</button>
     </form> !-->
 </div>
-<div><a href="/messageboard/create">Add New Message</a></div>
+<div><a href="/messageboard/create" class="btn btn-success">Add New Message</a></div>
 <div>
 <h3>My Posts</h3> 
 
