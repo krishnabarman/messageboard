@@ -6,6 +6,7 @@ use App\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 
 class MessageboardController extends Controller
 {
@@ -25,7 +26,7 @@ class MessageboardController extends Controller
      */
     public function index()
     {
-        $messages = Message::with('user')->orderBy('created_at', 'desc')->get();
+        $messages = Message::with('user')->orderBy('created_at', 'desc')->simplePaginate(5);
 
         return view('pages.messageboard.index_message', [
             'messages' => $messages
@@ -39,8 +40,12 @@ class MessageboardController extends Controller
      */
     public function create()
     {
+        $message = new Message();       
+        $message->id=0; 
 
-        return view('pages.messageboard.create_message');
+        return view('pages.messageboard.create_edit_message')->with
+        ('message',$message);
+
     }
 
     /**
@@ -51,7 +56,10 @@ class MessageboardController extends Controller
      */
     public function store(Request $request)
     {
+        $message = new Message();  
+        return $this->update($request, $message->id);
 
+        /*
         $this->validate($request, [
             'title' => 'required',
             'content' => 'required',
@@ -86,6 +94,7 @@ class MessageboardController extends Controller
         $message->save();
 
         return redirect('/messageboard')->with('success', 'Message has been created successfully');
+        */
     }
 
     /**
@@ -111,15 +120,15 @@ class MessageboardController extends Controller
      */
     public function edit($id)
     {
-        $message = Message::findOrFail($id);
+        $message = Message::findOrFail($id);              
 
         if (Auth::User()->id !== $message->user_id) {
             return redirect('/messageboard')->with('error', 'You do not own this post!');
         }
 
-        return view('pages.messageboard.edit_message', [
-            'message' => $message
-        ]);
+        return view('pages.messageboard.create_edit_message')->with
+        ('message',$message);
+      
     }
 
     /**
@@ -127,11 +136,12 @@ class MessageboardController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int $id
+     *  @param  \App\Message  $message
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        $message = Message::findOrFail($id);
+    {       
+        $message = Message::findOrNew($id);
 
         $this->validate($request, [
             'title' => 'required',
@@ -155,17 +165,35 @@ class MessageboardController extends Controller
             $filenameToStore = $filename . '_' . time() . $fileExt;
             //upload image in storage
             $filepath = $request->file('cover_image')->storeAs('public/messageboard/cover_images', $filenameToStore);
+            $message->cover_image = $filenameToStore;
         } 
+        else{
+             $existing_img = $message->getOriginal('cover_image');
+            if(isset($existing_img) === false){ // if cover_image already exist then no need to update, otherwise put default value
+                $message->cover_image = $filenameToStore;
+            } 
 
-        $message->title = $request->title;
-        $message->content = $request->content;
+        }
+
+        //$message = Message::findOrFail($id);
+       
+        $message->fill($request->all());
+
+       // $message->title = $request->title;
+        //$message->content = $request->content;
+        
         if ($request->hasFile('cover_image')) {
             $message->cover_image = $filenameToStore;
         }
+        else{
+
+        }
+        $message->user_id = auth()->user()->id;
 
         $message->save();
+      
 
-        return redirect('/messageboard/' . $id)->with('success', 'Message has been updated successfully');
+        return redirect('/messageboard/' . $message->$id)->with('success', 'Message has been updated successfully');
     }
 
     /**

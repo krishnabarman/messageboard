@@ -8,7 +8,7 @@
         Please login to post a message
     @else
         <div><a href="/messageboard/create" class="btn btn-success">Add New Message</a></div>
-        <div>
+       
         @endguest
         <h3>Recent Messages</h3>
 
@@ -16,10 +16,10 @@
 
             @foreach ($messages as $message)
                 <div class="row">
-                    <div class="col-md-2">
-                        <img style="width: 100%" src="/storage/messageboard/cover_images/{{ $message->cover_image }}" alt="{{ $message->cover_image }}">
+                    <div class="col-md-1">
+                        <img class="img-thumbnail" style="width: 100%" src="/storage/messageboard/cover_images/{{ $message->cover_image }}" alt="{{ $message->cover_image }}">
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-10">
                         <a href="/messageboard/{{ $message->id }}"> {{ $message->title }} </a> by {{ $message->user->name }}
                     </div>
 
@@ -29,5 +29,10 @@
 
             @endforeach
         </ul>
+        {{ $messages->links() }}
+        </div>
+        
+            
+            
     </div>
 @endsection

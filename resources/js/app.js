@@ -7,6 +7,10 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+import Form from './form';
+window.Form = Form;
+import Vue2Editor from "vue2-editor";
+Vue.use(Vue2Editor);
 
 /**
  * The following block of code may be used to automatically register your
@@ -20,6 +24,9 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('show-categories', require('./components/ShowCategoriesComponent.vue').default);
+Vue.component('register-domains', require('./components/RegisterDomainsComponent.vue').default);
+Vue.component('show-domains', require('./components/ShowDomainsComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

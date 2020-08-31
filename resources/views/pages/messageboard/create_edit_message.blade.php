@@ -5,15 +5,22 @@
 @section('content')
 
 <div>
+    @if($message->id ===0)
+   <h3> Create message </h3>
+   @else
    <h3> Edit message </h3>
-   {!! Form::open(['action' => ['MessageboardController@update',$message->id], 'method'=>'POST', 'enctype'=>"multipart/form-data"]) !!}
+   @endif
+   {!! Form::model($message, ['action' =>['MessageboardController@update',$message->id], 'method' => 'PUT', 'enctype' => "multipart/form-data"]) !!}  
+  
+  
+  {{--   {!! Form::open(['action' => ['MessageboardController@update',$message->id], 'method'=>'POST', 'enctype'=>"multipart/form-data"]) !!} --}}
 <div class="form-group">
     {{ Form::label('title','Title') }}
-    {{ Form::text('title',$message->title,['class'=>'form-control','placeholder'=>'Title']) }}
+    {{ Form::text('title',old('title'),['class'=>'form-control','placeholder'=>'Title']) }}
 </div>
 <div class ="form-group">
     {{ Form::label('title','Content') }}
-    {{ Form::textarea('content',$message->content,['class'=>'form-control','placeholder'=>'Content'])    }}
+    {{ Form::textarea('content',old('content'),['class'=>'form-control','placeholder'=>'Content'])    }}
 </div>
 <div class=" form-group row">
     <div class="col-md-2">
@@ -24,7 +31,7 @@
 <div class= "form-group">
     {{ Form::file('cover_image') }}    
 </div>
-{{ Form::hidden('_method','PUT') }}
+{{-- {{ Form::hidden('_method','PUT') }}  --}}
 {{ Form::submit('Submit',['class'=>'btn btn-primary']) }}
    
 {!! Form::close() !!}

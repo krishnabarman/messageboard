@@ -1,0 +1,24 @@
+.navbar-brand img {
+    max-width: 120px;
+    height: auto;
+}
+
+.nav-link {
+    font-size: 1.2rem;
+    color: purple!important;
+}
+
+.nav-link:hover {
+    color: rgba(128, 0, 128, 0.226)!important;
+}
+
+.textmaincolor {
+    color: purple!important;
+}
+
+.categorybox {
+    border-radius: 9px;
+    border: 1px solid blue;
+    background: white;
+    cursor: pointer;
+}

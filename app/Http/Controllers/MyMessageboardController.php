@@ -29,7 +29,7 @@ class MyMessageboardController extends Controller
     {
         $user_id= Auth::id();//auth()->user()->id;
         $user = User::find($user_id);
-        $messages = $user->messages()->orderBy('created_at','desc')->get();
+        $messages = $user->messages()->orderBy('created_at','desc')->simplePaginate(5);
         
 
         return view('pages.messageboard.my_messageboard',[
