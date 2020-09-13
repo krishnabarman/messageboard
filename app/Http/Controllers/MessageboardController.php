@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\MessageCollection;
 use App\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,11 +27,11 @@ class MessageboardController extends Controller
      */
     public function index()
     {
-        $messages = Message::with('user')->orderBy('created_at', 'desc')->simplePaginate(5);
+        $messages = new MessageCollection(Message::with('user')->orderBy('created_at', 'desc')->get());
 
-        return view('pages.messageboard.index_message', [
-            'messages' => $messages
-        ]);
+        return $messages;
+
+       //return view('pages.messageboard.index_message')->with('messages',$messages);
     }
 
     /**
@@ -40,12 +41,10 @@ class MessageboardController extends Controller
      */
     public function create()
     {
-        $message = new Message();       
-        $message->id=0; 
+        $message = new Message();
+        $message->id = 0;
 
-        return view('pages.messageboard.create_edit_message')->with
-        ('message',$message);
-
+        return view('pages.messageboard.create_edit_message')->with('message', $message);
     }
 
     /**
@@ -56,45 +55,9 @@ class MessageboardController extends Controller
      */
     public function store(Request $request)
     {
-        $message = new Message();  
+        $message = new Message();
         return $this->update($request, $message->id);
 
-        /*
-        $this->validate($request, [
-            'title' => 'required',
-            'content' => 'required',
-            'cover_image' => 'image|nullable|max:1999'
-        ]);
-
-        $filenameToStore = "noimage.jpeg";
-        //Handle file upload
-        if ($request->hasFile('cover_image')) {
-            //get filename with extension
-            $filenameWithExt = $request->file('cover_image')->getClientOriginalName();
-
-            //get file name
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-
-            //get file extension
-            $fileExt = $request->file('cover_image')->getClientOriginalExtension();
-
-            //file name to store in database
-            $filenameToStore = $filename . '_' . time() . $fileExt;
-            //upload image in storage
-            $filepath = $request->file('cover_image')->storeAs('public/messageboard/cover_images', $filenameToStore);
-        } 
-
-        $message = new Message();
-
-        $message->title = $request->title;
-        $message->content = $request->content;
-        $message->user_id = auth()->user()->id;
-        $message->cover_image = $filenameToStore;
-
-        $message->save();
-
-        return redirect('/messageboard')->with('success', 'Message has been created successfully');
-        */
     }
 
     /**
@@ -120,15 +83,13 @@ class MessageboardController extends Controller
      */
     public function edit($id)
     {
-        $message = Message::findOrFail($id);              
+        $message = Message::findOrFail($id);
 
         if (Auth::User()->id !== $message->user_id) {
-            return redirect('/messageboard')->with('error', 'You do not own this post!');
+            return redirect('/posts')->with('error', 'You do not own this post!');
         }
 
-        return view('pages.messageboard.create_edit_message')->with
-        ('message',$message);
-      
+        return view('pages.messageboard.create_edit_message')->with('message', $message);
     }
 
     /**
@@ -140,7 +101,7 @@ class MessageboardController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {       
+    {
         $message = Message::findOrNew($id);
 
         $this->validate($request, [
@@ -166,34 +127,30 @@ class MessageboardController extends Controller
             //upload image in storage
             $filepath = $request->file('cover_image')->storeAs('public/messageboard/cover_images', $filenameToStore);
             $message->cover_image = $filenameToStore;
-        } 
-        else{
-             $existing_img = $message->getOriginal('cover_image');
-            if(isset($existing_img) === false){ // if cover_image already exist then no need to update, otherwise put default value
+        } else {
+            $existing_img = $message->getOriginal('cover_image');
+            if (isset($existing_img) === false) { // if cover_image already exist then no need to update, otherwise put default value
                 $message->cover_image = $filenameToStore;
-            } 
-
+            }
         }
 
         //$message = Message::findOrFail($id);
-       
+
         $message->fill($request->all());
 
-       // $message->title = $request->title;
+        // $message->title = $request->title;
         //$message->content = $request->content;
-        
+
         if ($request->hasFile('cover_image')) {
             $message->cover_image = $filenameToStore;
-        }
-        else{
-
+        } else {
         }
         $message->user_id = auth()->user()->id;
 
         $message->save();
-      
 
-        return redirect('/messageboard/' . $message->$id)->with('success', 'Message has been updated successfully');
+
+        return redirect('/posts')->with('success', 'Message has been updated successfully');
     }
 
     /**
@@ -207,13 +164,13 @@ class MessageboardController extends Controller
 
         $message = Message::findOrFail($id);
         if (Auth::User()->id !== $message->user_id) {
-            return redirect('/messageboard')->with('error', 'You do not own this post!');
+            return redirect('/posts')->with('error', 'You do not own this post!');
         }
-        if($message->cover_image !=='noimage.jpg'){
+        if ($message->cover_image !== 'noimage.jpg') {
             // delete cover_image from storage
-            Storage::delete('public/messageboard/cover_images/'.$message->cover_image);
+            Storage::delete('public/messageboard/cover_images/' . $message->cover_image);
         }
         $message->delete();
-        return redirect('/messageboard')->with('success', 'Message has been deleted successfully');
+        return redirect('/posts')->with('success', 'Message has been deleted successfully');
     }
 }

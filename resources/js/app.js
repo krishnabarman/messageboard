@@ -27,6 +27,11 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 Vue.component('show-categories', require('./components/ShowCategoriesComponent.vue').default);
 Vue.component('register-domains', require('./components/RegisterDomainsComponent.vue').default);
 Vue.component('show-domains', require('./components/ShowDomainsComponent.vue').default);
+Vue.component('show-messages', require('./components/MessageboardComponent.vue').default);
+
+// have set the meta name="user_id" in master blade template which is app.blade, now can access $userId from every vue component if needed
+Vue.prototype.$userId = document.querySelector("meta[name='user_id']").getAttribute('content');
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

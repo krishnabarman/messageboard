@@ -3,7 +3,7 @@
 @section('title', $message->title)
 
 @section('content')
-    <a href="/messageboard" class="btn btn-default"> Go Back </a>
+    <a href="/posts" class="btn btn-default"> Go Back </a>
     <h3>{{ $message->title }}
     </h3>
     <h5>Author: {{ $message->user->name }} </h5>
@@ -13,11 +13,11 @@
             <img style="width: 100%" src="/storage/messageboard/cover_images/{{ $message->cover_image }}"
                 alt="{{ $message->cover_image }}">
         </div>
-        <div class="row">
+        
             <div class="col-md-12">
                 {{ $message->content }}
             </div>
-        </div>
+    </div>
         @if (Auth::check())
             @if (Auth::id() === $message->user_id)
                 <div class="btn-group pull-right">

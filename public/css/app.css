@@ -345,11 +345,17 @@ a > code {
 .col-md-2,
 .col-md-1,
 .col-12,
-.col-6 {
+.col-6,
+.col-4 {
   position: relative;
   width: 100%;
   padding-right: 15px;
   padding-left: 15px;
+}
+
+.col-4 {
+  flex: 0 0 33.3333333333%;
+  max-width: 33.3333333333%;
 }
 
 .col-6 {
@@ -1024,6 +1030,38 @@ textarea.form-control.is-invalid {
   text-decoration: none;
 }
 
+.nav-tabs {
+  border-bottom: 1px solid #dee2e6;
+}
+
+.nav-tabs .nav-item {
+  margin-bottom: -1px;
+}
+
+.nav-tabs .nav-link {
+  border: 1px solid transparent;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+}
+
+.nav-tabs .nav-link:hover,
+.nav-tabs .nav-link:focus {
+  border-color: #e9ecef #e9ecef #dee2e6;
+}
+
+
+.nav-tabs .nav-item.show .nav-link {
+  color: #495057;
+  background-color: #f8fafc;
+  border-color: #dee2e6 #dee2e6 #f8fafc;
+}
+
+.nav-tabs .dropdown-menu {
+  margin-top: -1px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
 .navbar {
   position: relative;
   display: flex;
@@ -1374,6 +1412,10 @@ textarea.form-control.is-invalid {
   margin: 0.25rem !important;
 }
 
+.mt-2 {
+  margin-top: 0.5rem !important;
+}
+
 .mb-3 {
   margin-bottom: 1rem !important;
 }
@@ -1434,11 +1476,13 @@ textarea.form-control.is-invalid {
   padding-bottom: 3rem !important;
 }
 
-.mr-auto {
+.mr-auto,
+.mx-auto {
   margin-right: auto !important;
 }
 
-.ml-auto {
+.ml-auto,
+.mx-auto {
   margin-left: auto !important;
 }
 

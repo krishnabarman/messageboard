@@ -28,7 +28,8 @@ Route::get('/','HomeController@index');
 
 
 Route::resource('messageboard', 'MessageboardController');
-Route::get('mymessageboard', 'MyMessageboardController@index');
+Route::view('posts', 'pages.messageboard.index_message'); // Calling the view directly, MessageboardController@index will return api data
+
 
 
 Route::resource('category', 'BacklinkApp\CategoryController');

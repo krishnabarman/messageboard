@@ -31,7 +31,7 @@
                 </div>
 
             @endforeach
-            <a href="/messageboard" class="btn btn-light">View More</a>
+            <a href="/posts" class="btn btn-light">View More</a>
         </div>
     </div>
     <div class="d-flex justify-content-center">
