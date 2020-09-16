@@ -20,7 +20,7 @@
                     :alt= "message.cover_image">
                 </div>
                 <div class="col-md-10">
-                    <a :href='"/messageboard/"+ message.id'>  {{ message.title   }} </a> by {{ message.user.name }}
+                    <a :href='"/messages/"+ message.slug'>  {{ message.title   }} </a> by {{ message.user.name }}
                 </div>
           
           </div>
@@ -37,7 +37,7 @@
                     :alt= "message.cover_image">
                 </div>
                 <div class="col-md-10">
-                    <a :href='"/messageboard/"+ message.id'>  {{ message.title   }} </a> by {{ message.user.name }}
+                    <a :href='"/messages/"+ message.slug'>  {{ message.title   }} </a> by {{ message.user.name }}
                 </div>
           
           </div>
@@ -64,7 +64,7 @@ export default {
   },
   methods:{
     loadMessages: function(){
-      axios.get('/messageboard')
+      axios.get('/messages')
       .then((response)=>{
        
         this.messageData = response.data.data;

@@ -5,15 +5,17 @@
 @section('content')
 
 <div>
-    @if($message->id ===0)
+    @if(collect($message)->isEmpty())
    <h3> Create message </h3>
+   {!! Form::model($message, array('route' => array('messages.store'),'enctype' => "multipart/form-data")) !!}
+   
    @else
    <h3> Edit message </h3>
+   {!! Form::model($message, ['action' =>['MessageboardController@update',$message->slug], 'method' => 'POST', 'enctype' => "multipart/form-data"]) !!}  
+   {{ Form::hidden('_method','PUT') }} 
    @endif
-   {!! Form::model($message, ['action' =>['MessageboardController@update',$message->id], 'method' => 'PUT', 'enctype' => "multipart/form-data"]) !!}  
+   
   
-  
-  {{--   {!! Form::open(['action' => ['MessageboardController@update',$message->id], 'method'=>'POST', 'enctype'=>"multipart/form-data"]) !!} --}}
 <div class="form-group">
     {{ Form::label('title','Title') }}
     {{ Form::text('title',old('title'),['class'=>'form-control','placeholder'=>'Title']) }}
@@ -31,7 +33,7 @@
 <div class= "form-group">
     {{ Form::file('cover_image') }}    
 </div>
-{{-- {{ Form::hidden('_method','PUT') }}  --}}
+
 {{ Form::submit('Submit',['class'=>'btn btn-primary']) }}
    
 {!! Form::close() !!}

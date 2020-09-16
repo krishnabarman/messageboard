@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 
 class MessageboardController extends Controller
 {
@@ -31,7 +33,7 @@ class MessageboardController extends Controller
 
         return $messages;
 
-       //return view('pages.messageboard.index_message')->with('messages',$messages);
+       
     }
 
     /**
@@ -41,8 +43,7 @@ class MessageboardController extends Controller
      */
     public function create()
     {
-        $message = new Message();
-        $message->id = 0;
+        $message = new Message();        
 
         return view('pages.messageboard.create_edit_message')->with('message', $message);
     }
@@ -56,37 +57,42 @@ class MessageboardController extends Controller
     public function store(Request $request)
     {
         $message = new Message();
-        return $this->update($request, $message->id);
+        
+        return $this->update($request, $message);
 
     }
 
-    /**
+ /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param  \App\Message  $message
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        $message = Message::with('user')->findOrFail($id);
+    
+    public function show(Message $message)
+    {       
+        // Because of route model binding we now have access to the $message object! no need to find it!
+
 
         return view('pages.messageboard.show_message', [
             'message' => $message
         ]);
+        
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+    * @param  \App\Message  $message
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Message  $message)
     {
-        $message = Message::findOrFail($id);
+        //$message = Message::findOrFail($message);
+        // Because of route model binding we now have access to the $message object! no need to find it!
 
         if (Auth::User()->id !== $message->user_id) {
-            return redirect('/posts')->with('error', 'You do not own this post!');
+            return redirect('/messageboard')->with('error', 'You do not own this post!');
         }
 
         return view('pages.messageboard.create_edit_message')->with('message', $message);
@@ -95,14 +101,14 @@ class MessageboardController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int $id
-     *  @param  \App\Message  $message
+     * @param  \Illuminate\Http\Request  $request    
+     * @param  \App\Message  $message
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Message  $message)
     {
-        $message = Message::findOrNew($id);
+        //$message = Message::findOrNew($message);
+        // Because of route model binding we now have access to the $message object! no need to find it!
 
         $this->validate($request, [
             'title' => 'required',
@@ -133,44 +139,37 @@ class MessageboardController extends Controller
                 $message->cover_image = $filenameToStore;
             }
         }
-
-        //$message = Message::findOrFail($id);
+       
+        //$message->slug = SlugService::createSlug(Message::class, 'slug', $request->title);
 
         $message->fill($request->all());
-
-        // $message->title = $request->title;
-        //$message->content = $request->content;
-
-        if ($request->hasFile('cover_image')) {
-            $message->cover_image = $filenameToStore;
-        } else {
-        }
+        
         $message->user_id = auth()->user()->id;
 
         $message->save();
 
 
-        return redirect('/posts')->with('success', 'Message has been updated successfully');
+        return redirect('/messageboard')->with('success', 'Message has been saved successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * * @param  \App\Message  $message
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Message  $message)
     {
 
-        $message = Message::findOrFail($id);
+        //$message = Message::findOrFail($message);
         if (Auth::User()->id !== $message->user_id) {
-            return redirect('/posts')->with('error', 'You do not own this post!');
+            return redirect('/messageboard')->with('error', 'You do not own this post!');
         }
-        if ($message->cover_image !== 'noimage.jpg') {
+        if ($message->cover_image !== 'noimage.jpeg') {
             // delete cover_image from storage
             Storage::delete('public/messageboard/cover_images/' . $message->cover_image);
         }
         $message->delete();
-        return redirect('/posts')->with('success', 'Message has been deleted successfully');
+        return redirect('/messageboard')->with('success', 'Message has been deleted successfully');
     }
 }

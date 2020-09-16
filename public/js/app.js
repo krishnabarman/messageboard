@@ -2004,7 +2004,7 @@ __webpack_require__.r(__webpack_exports__);
     loadMessages: function loadMessages() {
       var _this = this;
 
-      axios.get('/messageboard').then(function (response) {
+      axios.get('/messages').then(function (response) {
         _this.messageData = response.data.data;
       })["catch"](function (error) {
         console.log(error);
@@ -52316,7 +52316,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-md-10" }, [
-                _c("a", { attrs: { href: "/messageboard/" + message.id } }, [
+                _c("a", { attrs: { href: "/messages/" + message.slug } }, [
                   _vm._v("  " + _vm._s(message.title) + " ")
                 ]),
                 _vm._v(" by " + _vm._s(message.user.name) + "\n              ")
@@ -52377,7 +52377,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-md-10" }, [
-                _c("a", { attrs: { href: "/messageboard/" + message.id } }, [
+                _c("a", { attrs: { href: "/messages/" + message.slug } }, [
                   _vm._v("  " + _vm._s(message.title) + " ")
                 ]),
                 _vm._v(" by " + _vm._s(message.user.name) + "\n              ")

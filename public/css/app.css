@@ -102,6 +102,11 @@ ul ul {
   margin-bottom: 0;
 }
 
+dd {
+  margin-bottom: 0.5rem;
+  margin-left: 0;
+}
+
 
 strong {
   font-weight: bolder;
@@ -155,8 +160,7 @@ button:focus {
 
 input,
 button,
-select,
-textarea {
+select {
   margin: 0;
   font-family: inherit;
   font-size: inherit;
@@ -207,11 +211,6 @@ button::-moz-focus-inner,
 input[type=checkbox] {
   box-sizing: border-box;
   padding: 0;
-}
-
-textarea {
-  overflow: auto;
-  resize: vertical;
 }
 
 [type=number]::-webkit-inner-spin-button,
@@ -509,10 +508,6 @@ select.form-control[multiple] {
   height: auto;
 }
 
-textarea.form-control {
-  height: auto;
-}
-
 .form-group {
   margin-bottom: 1rem;
 }
@@ -578,12 +573,6 @@ textarea.form-control {
 .form-control.is-invalid:focus {
   border-color: #e3342f;
   box-shadow: 0 0 0 0.2rem rgba(227, 52, 47, 0.25);
-}
-
-
-textarea.form-control.is-invalid {
-  padding-right: calc(1.6em + 0.75rem);
-  background-position: top calc(0.4em + 0.1875rem) right calc(0.4em + 0.1875rem);
 }
 
 

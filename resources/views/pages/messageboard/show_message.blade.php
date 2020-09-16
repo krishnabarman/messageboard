@@ -3,7 +3,7 @@
 @section('title', $message->title)
 
 @section('content')
-    <a href="/posts" class="btn btn-default"> Go Back </a>
+    <a href="/messageboard" class="btn btn-default"> Go Back </a>
     <h3>{{ $message->title }}
     </h3>
     <h5>Author: {{ $message->user->name }} </h5>
@@ -22,12 +22,12 @@
             @if (Auth::id() === $message->user_id)
                 <div class="btn-group pull-right">
                     <div class="row">
-                        <div class="col-md-4"><a href="/messageboard/{{ $message->id }}/edit"
+                        <div class="col-md-4"><a href="/messages/{{ $message->slug}}/edit"
                                 class="btn btn-success">Edit</a></div>
                         <div class="col-md-4">
 
                             {!! Form::open(['method' => 'POST', 'action' => ['MessageboardController@destroy',
-                            $message->id], 'class' => 'form-horizontal']) !!}
+                            $message->slug], 'class' => 'form-horizontal']) !!}
 
 
                             {!! Form::hidden('_method', 'DELETE') !!}

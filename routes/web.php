@@ -27,8 +27,11 @@ Route::resource('home', 'HomeController')
 Route::get('/','HomeController@index');
 
 
-Route::resource('messageboard', 'MessageboardController');
-Route::view('posts', 'pages.messageboard.index_message'); // Calling the view directly, MessageboardController@index will return api data
+Route::resource('messages', 'MessageboardController');
+//->except('show','update','destroy');
+//Route::get('messageboard/{message}','MessageboardController@show');
+
+Route::view('messageboard', 'pages.messageboard.index_message'); // Calling the view directly, MessageboardController@index will return api data
 
 
 

@@ -25,13 +25,13 @@
                             alt="{{ $message->cover_image }}">
                     </div>
                     <div class="col-md-10">
-                        <a href="/messageboard/{{ $message->id }}"> {{ $message->title }} </a> by {{ $message->user->name }}
+                        <a href="/messages/{{ $message->slug }}"> {{ $message->title }} </a> by {{ $message->user->name }}
 
                     </div>
                 </div>
 
             @endforeach
-            <a href="/posts" class="btn btn-light">View More</a>
+            <a href="/messageboard" class="btn btn-light">View More</a>
         </div>
     </div>
     <div class="d-flex justify-content-center">
